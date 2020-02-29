@@ -8,7 +8,7 @@
 						<v-card-title primary-title>{{ item.title }}</v-card-title>
 						<v-card-subtitle>Date: {{ moment(item.release_date) }}</v-card-subtitle>
 						<v-card-actions class="justify-center">
-							<v-btn text color="green" @click="singleMovie(item.title)">View</v-btn>
+							<v-btn text color="green" @click="singleMovie(item.id)">View</v-btn>
 						</v-card-actions>
 					</v-card>
 				</v-flex>
@@ -24,7 +24,7 @@ export default {
 	data() {
 		return {
 			results: [],
-			imgURL: "https://image.tmdb.org/t/p/w342/"
+			imgURL: "https://image.tmdb.org/t/p/w342"
 		};
 	},
 	mounted() {
@@ -42,10 +42,10 @@ export default {
 					console.log(error);
 				});
 		},
-		singleMovie(title) {
-			title = title.replace(/\s/g, "+").toLowerCase();
-			console.log(title);
-			this.$router.push("/movie/" + title);
+		singleMovie(id) {
+			// title = title.replace(/\s/g, "+").toLowerCase();
+			console.log(id);
+			this.$router.push("/movie/" + id);
 		},
 		moment(date) {
 			return moment(date).format("MMM Do YYYY");

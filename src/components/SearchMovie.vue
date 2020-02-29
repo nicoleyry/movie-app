@@ -7,7 +7,7 @@
 					<v-card-title primary-title>{{ item.title }}</v-card-title>
 					<v-card-subtitle>Date: {{ moment(item.release_date) }}</v-card-subtitle>
 					<v-card-actions class="justify-center">
-						<v-btn text color="green" @click="singleMovie(item.title)">View</v-btn>
+						<v-btn text color="green" @click="singleMovie(item.id)">View</v-btn>
 					</v-card-actions>
 				</v-card>
 			</v-flex>
@@ -23,19 +23,19 @@ export default {
 	data() {
 		return {
 			movieResponse: [],
-			imgURL: "https://image.tmdb.org/t/p/w342/"
+			imgURL: "https://image.tmdb.org/t/p/w342"
 		};
 	},
 	methods: {
-		singleMovie(title) {
-			title = title.replace(/\s/g, "+").toLowerCase();
-			console.log(title);
-			this.$router.push("/movie/" + title);
+		singleMovie(id) {
+			// title = title.replace(/\s/g, "+").toLowerCase();
+			console.log(id);
+			this.$router.push("/movie/" + id);
 		},
 
 		fetchResult(value) {
 			movieApi
-				.fetchSingleMovie(value)
+				.SearchMovies(value)
 				.then(response => {
 					this.movieResponse = response;
 					console.log(this.movieResponse);

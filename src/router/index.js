@@ -1,8 +1,8 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
+import Vue from 'vue';
+import VueRouter from 'vue-router';
 import MovieHome from '@/components/MovieHome';
-import Movie from '@/components/Movie'
-import SearchMovie from '@/components/SearchMovie'
+import Movie from '@/components/Movie';
+import SearchMovie from '@/components/SearchMovie';
 
 Vue.use(VueRouter)
 export default new VueRouter({
@@ -14,7 +14,7 @@ export default new VueRouter({
       component: MovieHome
     },
     {
-      path: '/movie/:title',
+      path: '/movie/:id',
       name: 'Movie',
       props: true,
       component: Movie
