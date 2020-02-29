@@ -1,27 +1,18 @@
 <template>
-	<v-container v-if="noData">
-		<div class="text-xs-center">
-			<h2>Can't find the movie data</h2>
-		</div>
-	</v-container>
-
-	<v-container v-else grid-list-xl>
+	<v-container grid-list-xl>
 		<v-layout wrap>
 			<v-flex xs4 v-for="(item, index) in movieResponse" :key="index" mb-2>
 				<v-card>
-					<v-img :src="item.Poster" aspect-ratio="1"></v-img>
-
+					<v-img :src="imgURL + item.poster_path" aspect-ratio="1"></v-img>
 					<v-card-title primary-title>
 						<div>
-							<h2>{{item.Title}}</h2>
-							<div>Year: {{item.Year}}</div>
-							<div>Type: {{item.Type}}</div>
-							<div>IMDB-id: {{item.imdbID}}</div>
+							<h2>{{item.title}}</h2>
+								<div>Date: {{item.release_date}}</div>
 						</div>
 					</v-card-title>
 
 					<v-card-actions class="justify-center">
-						<v-btn text color="green" @click="singleMovie(item.imdbID)">View</v-btn>
+						<v-btn text color="green" @click="singleMovie(item.title)">View</v-btn>
 					</v-card-actions>
 				</v-card>
 			</v-flex>
@@ -37,8 +28,7 @@ export default {
 	data() {
 		return {
 			movieResponse: [],
-			loading: true,
-			noData: false
+			imgURL: "https://image.tmdb.org/t/p/w342/"
 		};
 	},
 	methods: {
@@ -52,12 +42,8 @@ export default {
 			movieApi
 				.fetchSingleMovie(value)
 				.then(response => {
-					if (response.Response === "True") {
-						this.movieResponse = response.Search;
-						this.noData = false;
-					} else {
-						this.noData = true;
-					}
+					this.movieResponse = response;
+					console.log(this.movieResponse);
 				})
 				.catch(error => {
 					console.log(error);

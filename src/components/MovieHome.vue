@@ -36,8 +36,8 @@ export default {
 				"https://api.themoviedb.org/3/discover/movie?api_key=8e70e008335b9cf0fe44b80e1c509a0d&sort_by=popularity.desc"
 			)
 			.then(res => {
-				console.log(res.data.results);
 				this.results = res.data.results;
+				console.log(this.results);
 			})
 			.catch(error => {
 				console.log(error);
