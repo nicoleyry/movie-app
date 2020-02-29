@@ -5,12 +5,8 @@
 				<v-flex xs4 v-for="(item, index) in results" :key="index" mb-2>
 					<v-card>
 						<v-img :src="imgURL + item.poster_path" aspect-ratio="1"></v-img>
-						<v-card-title primary-title>
-							<div>
-								<h2>{{item.title}}</h2>
-								<div>Date: {{item.release_date}}</div>
-							</div>
-						</v-card-title>
+						<v-card-title primary-title>{{ item.title }}</v-card-title>
+						<v-card-subtitle>Date: {{ moment(item.release_date) }}</v-card-subtitle>
 						<v-card-actions class="justify-center">
 							<v-btn text color="green" @click="singleMovie(item.title)">View</v-btn>
 						</v-card-actions>
@@ -22,32 +18,37 @@
 </template>
 
 <script>
-import axios from "axios";
+import movieApi from "@/services/MovieApi";
+import moment from "moment";
 export default {
 	data() {
 		return {
-            results: [],
+			results: [],
 			imgURL: "https://image.tmdb.org/t/p/w342/"
 		};
 	},
 	mounted() {
-		axios
-			.get(
-				"https://api.themoviedb.org/3/discover/movie?api_key=8e70e008335b9cf0fe44b80e1c509a0d&sort_by=popularity.desc"
-			)
-			.then(res => {
-				this.results = res.data.results;
-				console.log(this.results);
-			})
-			.catch(error => {
-				console.log(error);
-			});
+		this.fetchResult();
 	},
 	methods: {
+		fetchResult() {
+			movieApi
+				.fetchMovies()
+				.then(response => {
+					this.results = response;
+					console.log(this.results);
+				})
+				.catch(error => {
+					console.log(error);
+				});
+		},
 		singleMovie(title) {
 			title = title.replace(/\s/g, "+").toLowerCase();
 			console.log(title);
 			this.$router.push("/movie/" + title);
+		},
+		moment(date) {
+			return moment(date).format("MMM Do YYYY");
 		}
 	}
 };
