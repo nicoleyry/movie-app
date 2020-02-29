@@ -3,10 +3,10 @@
 		<v-layout wrap>
 			<v-flex xs12 mr-1 ml-1>
 				<v-card>
-					<v-img :src="imgURL + singleMovie.poster_path" aspect-ratio="2"></v-img>
-					<v-card-title primary-title>{{ singleMovie.title }}</v-card-title>
-					<v-card-subtitle class="subtitle-1">{{ moment(singleMovie.release_date) }}</v-card-subtitle>
-					<v-card-text class="body-1 font-italic">{{ singleMovie.overview }}</v-card-text>
+					<v-img :src="imgURL + details.poster_path" aspect-ratio="2"></v-img>
+					<v-card-title primary-title>{{ details.title }}</v-card-title>
+					<v-card-subtitle class="subtitle-1">{{ moment(details.release_date) }}</v-card-subtitle>
+					<v-card-text class="body-1 font-italic">{{ details.overview }}</v-card-text>
 					<v-card-actions>
 						<v-btn text color="green" @click="back">back</v-btn>
 					</v-card-actions>
@@ -16,31 +16,22 @@
 	</v-container>
 </template>
 <script>
-import movieApi from "@/services/MovieApi";
 import moment from "moment";
+import { mapState } from "vuex";
 export default {
 	props: ["id"],
 	data() {
 		return {
-			singleMovie: "",
 			imgURL: "https://image.tmdb.org/t/p/original"
 		};
 	},
-	mounted() {
-		this.fetchResult();
+	computed: {
+		...mapState(["details"])
+	},
+	created() {
+		this.$store.dispatch("loadDetails", this.id);
 	},
 	methods: {
-		fetchResult() {
-			movieApi
-				.fetchMovieDetails(this.id)
-				.then(response => {
-					this.singleMovie = response;
-					console.log(this.singleMovie);
-				})
-				.catch(error => {
-					console.log(error);
-				});
-		},
 		back() {
 			this.$router.push("/");
 		},

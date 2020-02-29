@@ -2,13 +2,13 @@
 	<div>
 		<v-container grid-list-xl>
 			<v-layout wrap>
-				<v-flex xs4 v-for="(item, index) in results" :key="index" mb-2>
+				<v-flex xs4 v-for="(movie, index) in movies" :key="index" mb-2>
 					<v-card>
-						<v-img :src="imgURL + item.poster_path" aspect-ratio="1"></v-img>
-						<v-card-title primary-title>{{ item.title }}</v-card-title>
-						<v-card-subtitle>Date: {{ moment(item.release_date) }}</v-card-subtitle>
+						<v-img :src="imgURL + movie.poster_path" aspect-ratio="1"></v-img>
+						<v-card-title primary-title>{{ movie.title }}</v-card-title>
+						<v-card-subtitle>Date: {{ moment( movie.release_date) }}</v-card-subtitle>
 						<v-card-actions class="justify-center">
-							<v-btn text color="green" @click="singleMovie(item.id)">View</v-btn>
+							<v-btn text color="green" @click="singleMovie(movie.id)">View</v-btn>
 						</v-card-actions>
 					</v-card>
 				</v-flex>
@@ -18,32 +18,22 @@
 </template>
 
 <script>
-import movieApi from "@/services/MovieApi";
 import moment from "moment";
+import { mapState } from "vuex";
 export default {
 	data() {
 		return {
-			results: [],
 			imgURL: "https://image.tmdb.org/t/p/w342"
 		};
 	},
-	mounted() {
-		this.fetchResult();
+	computed: {
+		...mapState(["movies"])
+	},
+	created() {
+		this.$store.dispatch("loadMovies");
 	},
 	methods: {
-		fetchResult() {
-			movieApi
-				.fetchMovies()
-				.then(response => {
-					this.results = response;
-					console.log(this.results);
-				})
-				.catch(error => {
-					console.log(error);
-				});
-		},
 		singleMovie(id) {
-			// title = title.replace(/\s/g, "+").toLowerCase();
 			console.log(id);
 			this.$router.push("/movie/" + id);
 		},
