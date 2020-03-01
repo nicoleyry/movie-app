@@ -1,20 +1,23 @@
 <template>
-	<div>
-		<v-container grid-list-xl>
-			<v-layout wrap>
-				<v-flex xs4 v-for="(movie, index) in movies" :key="index" mb-2>
-					<v-card>
-						<v-img :src="imgURL + movie.poster_path" aspect-ratio="1"></v-img>
-						<v-card-title primary-title>{{ movie.title }}</v-card-title>
-						<v-card-subtitle>Date: {{ moment( movie.release_date) }}</v-card-subtitle>
-						<v-card-actions class="justify-center">
-							<v-btn text color="green" @click="singleMovie(movie.id)">View</v-btn>
-						</v-card-actions>
-					</v-card>
-				</v-flex>
-			</v-layout>
-		</v-container>
-	</div>
+	<v-container v-if="loading">
+		<div class="text-xs-center">
+			<v-progress-circular indeterminate :size="150" :width="8" color="green"></v-progress-circular>
+		</div>
+	</v-container>
+	<v-container v-else grid-list-xl>
+		<v-layout wrap>
+			<v-flex xs4 v-for="(movie, index) in movies" :key="index" mb-2>
+				<v-card>
+					<v-img :src="imgURL + movie.poster_path" aspect-ratio="1"></v-img>
+					<v-card-title primary-title>{{ movie.title }}</v-card-title>
+					<v-card-subtitle>Date: {{ moment( movie.release_date) }}</v-card-subtitle>
+					<v-card-actions class="justify-center">
+						<v-btn text color="green" @click="singleMovie(movie.id)">View</v-btn>
+					</v-card-actions>
+				</v-card>
+			</v-flex>
+		</v-layout>
+	</v-container>
 </template>
 
 <script>
@@ -27,10 +30,13 @@ export default {
 		};
 	},
 	computed: {
-		...mapState(["movies"])
+		...mapState(["movies", "loading"])
 	},
 	created() {
 		this.$store.dispatch("loadMovies");
+		console.log("Before Change Loading State: " + this.loading);
+		this.$store.dispatch("loadingState");
+		console.log("After Loading State: " + this.loading);
 	},
 	methods: {
 		singleMovie(id) {
@@ -45,4 +51,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.v-progress-circular {
+	margin: 1rem;
+}
 </style>

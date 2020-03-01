@@ -1,15 +1,26 @@
 <template>
-	<v-container>
+	<v-container v-if="loading">
+		<div class="text-xs-center">
+			<v-progress-circular indeterminate :size="150" :width="8" color="green"></v-progress-circular>
+		</div>
+	</v-container>
+	<v-container v-else>
 		<v-layout wrap>
 			<v-flex xs12 mr-1 ml-1>
 				<v-card>
-					<v-img :src="imgURL + details.poster_path" aspect-ratio="2"></v-img>
-					<v-card-title primary-title>{{ details.title }}</v-card-title>
-					<v-card-subtitle class="subtitle-1">{{ moment(details.release_date) }}</v-card-subtitle>
-					<v-card-text class="body-1 font-italic">{{ details.overview }}</v-card-text>
-					<v-card-actions>
-						<v-btn text color="green" @click="back">back</v-btn>
-					</v-card-actions>
+					<v-row>
+						<v-col class="mb-4">
+							<v-img :src="imgURL + details.poster_path" contain aspect-ratio="2"></v-img>
+						</v-col>
+						<v-col class="mb-8">
+							<v-card-title primary-title>{{ details.title }}</v-card-title>
+							<v-card-subtitle class="subtitle-1">{{ moment(details.release_date) }}</v-card-subtitle>
+							<v-card-text class="body-1 font-italic">{{ details.overview }}</v-card-text>
+							<v-card-actions>
+								<v-btn text color="green" @click="back">back to home</v-btn>
+							</v-card-actions>
+						</v-col>
+					</v-row>
 				</v-card>
 			</v-flex>
 		</v-layout>
@@ -22,14 +33,17 @@ export default {
 	props: ["id"],
 	data() {
 		return {
-			imgURL: "https://image.tmdb.org/t/p/original"
+			imgURL: "https://image.tmdb.org/t/p/w500"
 		};
 	},
 	computed: {
-		...mapState(["details"])
+		...mapState(["details", "loading"])
 	},
 	created() {
 		this.$store.dispatch("loadDetails", this.id);
+		console.log("Before Change Loading State: " + this.loading);
+		this.$store.dispatch("loadingState");
+		console.log("After Change Loading State: " + this.loading);
 	},
 	methods: {
 		back() {
@@ -42,4 +56,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.v-progress-circular {
+	margin: 1rem;
+}
 </style>
