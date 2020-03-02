@@ -1,7 +1,7 @@
 <template>
 	<v-container v-if="loading">
 		<div class="text-xs-center">
-			<v-progress-circular indeterminate :size="150" :width="8" color="green"></v-progress-circular>
+			<v-progress-circular indeterminate :size="150" :width="8" color="dark"></v-progress-circular>
 		</div>
 	</v-container>
 	<v-container v-else grid-list-xl>
@@ -9,11 +9,11 @@
 			<v-flex xs4 v-for="(item, index) in searchresults" :key="index" mb-2>
 				<v-card>
 					<v-img v-if="item.poster_path != null" :src="imgURL + item.poster_path" aspect-ratio="1"></v-img>
-                    <v-img v-else src="" aspect-ratio="1">
-                        <div style="height: 370px" class="d-flex align-center justify-center">
-                            <p class="font-italic font-weight-medium">No Image</p>
-                        </div>
-                    </v-img>
+					<v-img v-else src aspect-ratio="1">
+						<div style="height: 370px" class="d-flex align-center justify-center">
+							<p class="font-italic font-weight-medium">No Image</p>
+						</div>
+					</v-img>
 					<v-card-title primary-title>
 						<div>
 							<h2>{{item.title}}</h2>
@@ -59,7 +59,7 @@ export default {
 	},
 	watch: {
 		title(value) {
-		    this.$store.dispatch("loadResults", value);
+			this.$store.dispatch("loadResults", value);
 		}
 	}
 };

@@ -1,7 +1,7 @@
 <template>
 	<v-container v-if="loading">
 		<div class="text-xs-center">
-			<v-progress-circular indeterminate :size="150" :width="8" color="green"></v-progress-circular>
+			<v-progress-circular indeterminate :size="150" :width="8" color="dark"></v-progress-circular>
 		</div>
 	</v-container>
 	<v-container v-else>
@@ -14,8 +14,11 @@
 						</v-col>
 						<v-col class="mb-8">
 							<v-card-title primary-title>{{ details.title }}</v-card-title>
-							<v-card-subtitle class="subtitle-1">{{ moment(details.release_date) }}</v-card-subtitle>
-							<v-card-text class="body-1 font-italic">{{ details.overview }}</v-card-text>
+							<v-card-subtitle class="subtitle-1 font-italic font-weight-medium">{{ details.tagline }}</v-card-subtitle>
+							<v-card-text>
+								<p class="font-weight-regular">Date: {{ moment(details.release_date) }}</p>
+								<p class="font-weight-medium">{{ details.overview }}</p>
+							</v-card-text>
 							<v-card-actions>
 								<v-btn text color="green" @click="back">back to home</v-btn>
 							</v-card-actions>
