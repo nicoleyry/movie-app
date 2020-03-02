@@ -12,6 +12,9 @@ export default new Vuex.Store({
     loading: true
   },
   mutations: {
+    CLEAR_MOVIES: (state) => {
+      state.movies = [];
+    },
     FETCH_MOVIES: (state, payload) => {
       for (var i = 0; i < payload.length; i++) {
         state.movies.push(payload[i]);
@@ -29,14 +32,33 @@ export default new Vuex.Store({
   },
   actions: {
     loadMovies: ({ commit }) => {
-      for (var i = 1; i < 6; i++) {
-        axios
-          .get("https://api.themoviedb.org/3/discover/movie?api_key=8e70e008335b9cf0fe44b80e1c509a0d&sort_by=popularity.desc&page=" + i)
-          .then(res => {
-            commit("FETCH_MOVIES", res.data.results);
-            commit("CHANGE_LOADING_STATE", false);
-          });
-      }
+      commit("CLEAR_MOVIES");
+      axios
+        .get("https://api.themoviedb.org/3/discover/movie?api_key=8e70e008335b9cf0fe44b80e1c509a0d&sort_by=popularity.desc&page=1")
+        .then(res => {
+          commit("FETCH_MOVIES", res.data.results);
+          axios
+            .get("https://api.themoviedb.org/3/discover/movie?api_key=8e70e008335b9cf0fe44b80e1c509a0d&sort_by=popularity.desc&page=2")
+            .then(res => {
+              commit("FETCH_MOVIES", res.data.results);
+              axios
+                .get("https://api.themoviedb.org/3/discover/movie?api_key=8e70e008335b9cf0fe44b80e1c509a0d&sort_by=popularity.desc&page=3")
+                .then(res => {
+                  commit("FETCH_MOVIES", res.data.results);
+                  axios
+                    .get("https://api.themoviedb.org/3/discover/movie?api_key=8e70e008335b9cf0fe44b80e1c509a0d&sort_by=popularity.desc&page=4")
+                    .then(res => {
+                      commit("FETCH_MOVIES", res.data.results);
+                      axios
+                        .get("https://api.themoviedb.org/3/discover/movie?api_key=8e70e008335b9cf0fe44b80e1c509a0d&sort_by=popularity.desc&page=5")
+                        .then(res => {
+                          commit("FETCH_MOVIES", res.data.results);
+                          commit("CHANGE_LOADING_STATE", false);
+                        });
+                    });
+                });
+            });
+        });
     },
     loadResults: ({ commit }, payload) => {
       axios
