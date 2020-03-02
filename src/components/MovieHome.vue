@@ -11,6 +11,7 @@
 					<v-img :src="imgURL + movie.poster_path" aspect-ratio="1"></v-img>
 					<v-card-title primary-title>{{ movie.title }}</v-card-title>
 					<v-card-subtitle>Date: {{ moment( movie.release_date) }}</v-card-subtitle>
+					<v-card-text>Rank: {{ index+1 }}</v-card-text>
 					<v-card-actions class="justify-center">
 						<v-btn text color="green" @click="singleMovie(movie.id)">View</v-btn>
 					</v-card-actions>
@@ -34,9 +35,8 @@ export default {
 	},
 	created() {
 		this.$store.dispatch("loadMovies");
-		console.log("Before Change Loading State: " + this.loading);
+		console.log(this.movies);
 		this.$store.dispatch("loadingState");
-		console.log("After Loading State: " + this.loading);
 	},
 	methods: {
 		singleMovie(id) {

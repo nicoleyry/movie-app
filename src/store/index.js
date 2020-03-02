@@ -13,7 +13,9 @@ export default new Vuex.Store({
   },
   mutations: {
     FETCH_MOVIES: (state, payload) => {
-      state.movies = payload;
+      for (var i = 0; i < payload.length; i++) {
+        state.movies.push(payload[i]);
+      }
     },
     FETCH_RESULTS: (state, payload) => {
       state.searchresults = payload;
@@ -27,12 +29,14 @@ export default new Vuex.Store({
   },
   actions: {
     loadMovies: ({ commit }) => {
-      axios
-        .get("https://api.themoviedb.org/3/discover/movie?api_key=8e70e008335b9cf0fe44b80e1c509a0d&sort_by=popularity.desc&page=1")
-        .then(res => {
-          commit("FETCH_MOVIES", res.data.results);
-          commit("CHANGE_LOADING_STATE", false);
-        });
+      for (var i = 1; i < 6; i++) {
+        axios
+          .get("https://api.themoviedb.org/3/discover/movie?api_key=8e70e008335b9cf0fe44b80e1c509a0d&sort_by=popularity.desc&page=" + i)
+          .then(res => {
+            commit("FETCH_MOVIES", res.data.results);
+            commit("CHANGE_LOADING_STATE", false);
+          });
+      }
     },
     loadResults: ({ commit }, payload) => {
       axios
