@@ -44,13 +44,10 @@ export default {
 	},
 	created() {
 		this.$store.dispatch("loadResults", this.title);
-		console.log("Before Change Loading State: " + this.loading);
 		this.$store.dispatch("loadingState");
-		console.log("After Change Loading State: " + this.loading);
 	},
 	methods: {
 		singleMovie(id) {
-			console.log(id);
 			this.$router.push("/movie/" + id);
 		},
 		moment(date) {

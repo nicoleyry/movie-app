@@ -35,12 +35,10 @@ export default {
 	},
 	created() {
 		this.$store.dispatch("loadMovies");
-		console.log(this.movies);
 		this.$store.dispatch("loadingState");
 	},
 	methods: {
 		singleMovie(id) {
-			console.log(id);
 			this.$router.push("/movie/" + id);
 		},
 		moment(date) {

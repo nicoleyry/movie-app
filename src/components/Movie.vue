@@ -44,9 +44,7 @@ export default {
 	},
 	created() {
 		this.$store.dispatch("loadDetails", this.id);
-		console.log("Before Change Loading State: " + this.loading);
 		this.$store.dispatch("loadingState");
-		console.log("After Change Loading State: " + this.loading);
 	},
 	methods: {
 		back() {
